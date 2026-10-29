@@ -44,6 +44,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 body {
@@ -90,6 +91,9 @@ h1 em { font-weight: 400; }
 .intro { font-size: 20px; max-width: 62ch; margin: 0; }
 .intro + .intro { margin-top: 14px; }
 .hand { font-family: var(--f-hand); color: var(--pencil); font-size: 26.5px; line-height: 1.15; }
+.hero-side { min-width: 0; }
+.portrait { display: block; width: 230px; height: 230px; border-radius: 50%; object-fit: cover; object-position: 50% 28%; margin: 0 auto 36px; border: 2px solid var(--line); }
+.extra { display: grid; gap: 10px; margin-top: 20px; }
 .given { border: 1px solid var(--line); background: var(--card); padding: 18px 20px; position: relative; }
 .given h2 { font-family: var(--f-display); font-style: italic; font-weight: 400; font-size: 22px; margin: 0 0 10px; }
 .given ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
@@ -125,10 +129,13 @@ section { padding-block: 44px 8px; scroll-margin-top: 12px; }
 .tags li { font-family: var(--f-mono); font-size: 13px; background: var(--chip); padding: 3px 8px; border-radius: 2px; }
 .links { display: flex; flex-wrap: wrap; gap: 10px; }
 
-.media { min-width: 0; display: grid; gap: 10px; align-content: start; }
+.media { min-width: 0; display: grid; gap: 20px; align-content: start; }
+/* captions sit 8px under their image, with 20px before the next group */
+figure > figcaption { margin-top: 8px; }
+.media > figcaption { margin-top: -12px; }
 .shots { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
 @media (max-width: 520px) { .shots { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.sprites { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
+.sprites { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
 @media (max-width: 520px) { .sprites { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .sprites img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--line); image-rendering: pixelated; }
 .post-card { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1.5px solid var(--ink); background: var(--card); color: var(--ink); text-decoration: none; }
@@ -139,12 +146,12 @@ section { padding-block: 44px 8px; scroll-margin-top: 12px; }
 .post-card .pc-go { font-family: var(--f-mono); font-size: 20px; flex: none; }
 .ping-row { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; }
 .team img { display: block; width: 100%; height: auto; border: 1px solid var(--line); }
-.web { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 6px; }
+.web { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.web .shot { margin-bottom: 6px; }
 @media (max-width: 520px) { .web { grid-template-columns: minmax(0, 1fr); } }
 .web .shot img { aspect-ratio: 1440 / 900; }
 .web a { font-family: var(--f-mono); font-size: 13px; }
 .sync-shots .shot img { aspect-ratio: 1 / 2; object-position: top; }
-.vix-shots { margin-bottom: 14px; }
 .vix-shots .shot img { aspect-ratio: 3 / 5; }
 .shot { padding: 0; border: 1px solid var(--line); background: var(--paper); cursor: zoom-in; display: block; width: 100%; }
 .shot img { display: block; width: 100%; aspect-ratio: 416 / 900; object-fit: cover; }
@@ -192,6 +199,8 @@ figure { margin: 0; }
 /* contact */
 .contact { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
 @media (min-width: 760px) { .contact { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+.contact .thanks { text-align: right; align-self: center; }
+.contact .thanks .hand { font-size: 38px; }
 .contact p { margin: 0 0 12px; max-width: 58ch; font-size: 18.5px; }
 .c-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .c-list li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; background: var(--card); border: 1px solid var(--line); padding: 10px 14px; }
@@ -215,10 +224,10 @@ dialog#lb .row { display: flex; justify-content: space-between; align-items: cen
   <header class="top">
     <span class="mark">S. FONG · UC BERKELEY · APPLIED MATH + DATA SCIENCE</span>
     <nav aria-label="Sections">
+      <a href="#coursework">Education</a>
       <a href="#projects">Projects</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
-      <a href="#coursework">Coursework</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -226,15 +235,18 @@ dialog#lb .row { display: flex; justify-content: space-between; align-items: cen
   <div class="hero">
     <div>
       <p class="eyebrow">Senior · B.A. Applied Mathematics &amp; B.A. Data Science</p>
-      <h1>Stanley <em>Fong</em></h1>
+      <h1>Stanley Fong</h1>
       <p class="intro">Hey! My name is Stanley Fong and I'm currently a senior studying Applied Mathematics + Data Science at UC Berkeley. I like turning math and data into products people actually use, and most of my work sits where software engineering meets data.</p>
-      <p class="intro">Right now I'm an app developer at CITRIS and the Banatao Institute, where our team shipped a campus game to four UC campuses. I also build LLM-powered apps (one took first place at a Berkeley hackathon) and I enjoy markets and probability. I'm looking for software engineering, data science and data analyst internships.</p>
+      <p class="intro">Right now I am an app developer for the CITRIS and the Banatao Institute, where my team and I shipped a campus game to four UC campuses. I also build LLM-powered apps (one took first place at an Anthropic x UC Berkeley hackathon) and I've recently been learning more about markets and probability. I'm currently looking for software engineering and data analyst roles, so if you have any opportunities for me, feel free to reach out to me!</p>
       <div class="cta">
         <a class="btn primary" href="#projects">See my projects ↓</a>
         <a class="btn" href="https://github.com/stanleyfong" target="_blank" rel="noopener">GitHub ↗</a>
         <a class="btn" href="#contact">Get in touch</a>
       </div>
     </div>
+    <div class="hero-side">
+    <!-- Headshot: save your photo as images/headshot.jpg. It hides itself until the file exists. -->
+    <img class="portrait" src="images/headshot.jpg" alt="Stanley Fong" onerror="this.hidden=true">
     <aside class="given" aria-label="Highlights">
       <span class="hand" aria-hidden="true">the short version</span>
       <h2>Highlights</h2>
@@ -245,283 +257,12 @@ dialog#lb .row { display: flex; justify-content: space-between; align-items: cen
         <li><b>iv.</b><span>Transferred from Pasadena City College with <strong>two associate degrees</strong> and a 3.89 GPA</span></li>
       </ul>
     </aside>
-  </div>
-
-  <!-- ============ PROJECTS ============ -->
-  <section id="projects">
-    <div class="sec-head"><span class="num">§1</span><h2>Projects</h2><span class="note">tap a screenshot to enlarge</span></div>
-
-    <!-- CITRIS QUEST -->
-    <article class="project">
-      <div>
-        <div class="p-label"><span>Sep 2025 – Present</span><span>Flutter · Supabase</span><span class="award">Launched at 4 UC campuses</span></div>
-        <h3><img src="images/citris-icon.png" alt="">CITRIS Quest</h3>
-        <p class="role">App Developer, CITRIS and the Banatao Institute</p>
-        <p class="lede">A cross-platform mobile game inspired by <em>Space Invaders</em>. Players walk around campus, scan pixel-art artworks with their phone camera, and earn XP and coins. I built it with a five-person team under CITRIS Director Alexandre Bayen, and it launched across four UC campuses.</p>
-        <ul class="bul">
-          <li>Built the camera scanning flow: real-time preview, capture, offline mode and runtime permissions.</li>
-          <li>Built game systems including achievements, a global leaderboard and profile activity timelines.</li>
-          <li>Implemented the Supabase (PostgreSQL) backend for a Printify rewards store, with row-level security and transactional PL/pgSQL functions for purchases (atomic coin deductions, optimistic locking, rollback).</li>
-          <li>Designed the retro arcade UI in Figma and built it in Flutter with CustomPainter pixel-art icons and 3D flip animations.</li>
-          <li>Tested computer-vision recognition of 10+ artworks under different lighting and angles on iOS and Android before launch.</li>
-          <li>Deployed the Flutter web store to GitHub Pages with GitHub Actions CI/CD.</li>
-        </ul>
-        <ul class="tags"><li>Flutter</li><li>Dart</li><li>Supabase</li><li>PostgreSQL</li><li>PL/pgSQL</li><li>Figma</li><li>GitHub Actions</li><li>Clean Architecture</li></ul>
-      </div>
-      <figure class="media">
-        <!-- To swap in new images: replace the files in images/ or change the src values below. -->
-        <div class="shots">
-          <button class="shot" type="button" data-cap="Scan: point the camera at a campus artwork"><img src="images/citris-scan.jpg" alt="CITRIS Quest scan screen showing a pixel-art artwork in the camera view" loading="lazy"></button>
-          <button class="shot" type="button" data-cap="Map: find artworks near you"><img src="images/citris-map.jpg" alt="CITRIS Quest campus map screen" loading="lazy"></button>
-          <button class="shot" type="button" data-cap="Leaderboard: rankings across players"><img src="images/citris-leaderboard.jpg" alt="CITRIS Quest leaderboard screen" loading="lazy"></button>
-          <button class="shot" type="button" data-cap="Achievements: progress and rewards"><img src="images/citris-achievement.jpg" alt="CITRIS Quest achievements screen" loading="lazy"></button>
-        </div>
-        <figcaption>Fig. 1. Scan, map, leaderboard and achievements screens.</figcaption>
-        <div class="sprites"><img src="images/sprite-1.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-4.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-5.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-6.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-7.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-8.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-9.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-10.jpg" alt="Pixel-art alien artwork" loading="lazy"></div>
-        <figcaption>Fig. 1b. Pixel-art artworks in the style of <em>Space Invaders</em>, placed around campus for players to scan.</figcaption>
-        <div class="web">
-          <div>
-            <button class="shot" type="button" data-cap="Landing page: Celebrating 25 Years of CITRIS Innovation"><img src="images/citris-landing.jpg" alt="CITRIS Quest landing page with a pixel-art alien and a Download on TestFlight button" loading="lazy"></button>
-            <a href="https://dylancc5.github.io/citris-quest-landing/" target="_blank" rel="noopener">Landing page ↗</a>
-          </div>
-          <div>
-            <button class="shot" type="button" data-cap="Merch store: redeem in-game coins for merch"><img src="images/citris-redemption.jpg" alt="CITRIS Quest merch shop where players redeem in-game coins" loading="lazy"></button>
-            <a href="https://dylancc5.github.io/citris-quest-redemption/" target="_blank" rel="noopener">Merch store ↗</a>
-          </div>
-        </div>
-        <figcaption>Fig. 1c. The landing page and the rewards store where players spend the coins they earn.</figcaption>
-      </figure>
-    </article>
-
-    <!-- PING -->
-    <article class="project flip">
-      <div>
-        <div class="p-label"><span>Apr 2026 – Present</span><span>iOS · LLM</span><span class="award">1st place · Anthropic × Berkeley Haas Hackathon</span></div>
-        <h3><img src="images/ping-icon.png" alt="">Ping</h3>
-        <p class="role">iOS app, team of 4</p>
-        <p class="lede">A relationship memory for students and early-career professionals. You log someone you just met by voice in under 30 seconds, and Ping reminds you when to reach out and drafts a message you edit and send yourself. Our team won first place in the Economics &amp; Education Track at the Anthropic × UC Berkeley Haas Hackathon, out of 200+ participants.</p>
-        <ul class="bul">
-          <li>Designed the Supabase (PostgreSQL) data model for users' professional contacts, with pgvector embeddings for semantic search.</li>
-          <li>Built the voice capture and recommendation pipeline, pairing pgvector retrieval with Gemini and the Claude API.</li>
-          <li>Built the app natively in Swift and SwiftUI.</li>
-        </ul>
-        <ul class="tags"><li>Swift</li><li>SwiftUI</li><li>Supabase</li><li>pgvector</li><li>Claude API</li><li>Gemini</li></ul>
-      </div>
-      <div class="media">
-        <a class="post-card" id="ping-post" href="https://lnkd.in/p/e4BjUU4t" target="_blank" rel="noopener">
-          <span><span class="pc-k">LinkedIn post</span><span class="pc-t">1st place, Anthropic × UC Berkeley Haas School of Business Hackathon</span></span>
-          <span class="pc-go" aria-hidden="true">↗</span>
-        </a>
-        <!-- Team photo: save it as images/ping-team.jpg. This block hides itself until the file exists. -->
-        <figure class="team">
-          <img src="images/ping-team.jpg" alt="The Ping team after winning first place at the Anthropic × UC Berkeley Haas hackathon" onerror="this.closest('.team').hidden=true">
-          <figcaption>Our team after taking 1st place in the Economics &amp; Education Track.</figcaption>
-        </figure>
-      <div class="ping-row">
-        <figure>
-          <div class="shots">
-            <button class="shot" type="button" data-cap="Voice capture: log someone by talking"><img src="images/ping-voice.jpg" alt="Ping Log a Contact screen recording a voice note" loading="lazy"></button>
-            <button class="shot" type="button" data-cap="Tone setup: Ping learns how you write so drafts sound like you"><img src="images/ping-tone.jpg" alt="Ping Write like yourself screen with a recruiter reply scenario" loading="lazy"></button>
-            <button class="shot" type="button" data-cap="After saving: reminders, drafts in your voice, goal matching"><img src="images/ping-saved.jpg" alt="Ping contact saved screen explaining reminders, drafted messages and goals" loading="lazy"></button>
-            <button class="shot" type="button" data-cap="Goal matching: every contact scored against your goal"><img src="images/ping-goals.jpg" alt="Ping goal saved screen explaining how contacts are scored against a goal" loading="lazy"></button>
-          </div>
-          <figcaption>Voice capture, tone setup, what happens after you save a contact, and goal matching. Sample contact shown.</figcaption>
-        </figure>
-      <figure class="media">
-        <div class="fig">
-          <svg viewBox="0 0 460 250" role="img" aria-label="Diagram of Ping's pipeline: voice note, contact extraction, Supabase with pgvector, then a Claude-drafted message the user edits and sends">
-            <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-soft)"/></marker></defs>
-            <g fill="var(--card)" stroke="var(--ink)" stroke-width="1.5">
-              <rect x="10" y="20" width="120" height="56"/>
-              <rect x="170" y="20" width="120" height="56"/>
-              <rect x="330" y="20" width="120" height="56"/>
-              <rect x="170" y="160" width="120" height="56"/>
-              <rect x="330" y="160" width="120" height="56"/>
-            </g>
-            <g fill="var(--ink)" font-size="13" text-anchor="middle">
-              <text x="70" y="44">Voice note</text><text x="70" y="62" font-size="11" fill="var(--ink-soft)">hold to speak</text>
-              <text x="230" y="44">Extract contact</text><text x="230" y="62" font-size="11" fill="var(--ink-soft)">name, company, notes</text>
-              <text x="390" y="44">Supabase</text><text x="390" y="62" font-size="11" fill="var(--ink-soft)">Postgres + pgvector</text>
-              <text x="230" y="184">Nudge + draft</text><text x="230" y="202" font-size="11" fill="var(--ink-soft)">Claude API</text>
-              <text x="390" y="184">You edit, send</text><text x="390" y="202" font-size="11" fill="var(--ink-soft)">always manual</text>
-            </g>
-            <g stroke="var(--ink-soft)" stroke-width="1.5" fill="none" marker-end="url(#ar)">
-              <path d="M130 48 H166"/><path d="M290 48 H326"/>
-              <path d="M390 76 V118 H230 V156"/>
-              <path d="M290 188 H326"/>
-            </g>
-            <text x="318" y="112" font-size="11" fill="var(--pencil)" text-anchor="middle">semantic search</text>
-          </svg>
-        </div>
-        <figcaption>Fig. 2. How a contact moves through Ping, from voice note to a message you send.</figcaption>
-      </figure>
-      </div>
-      </div>
-    </article>
-
-    <!-- VIX TOOL -->
-    <article class="project">
-      <div>
-        <div class="p-label"><span>Jun 2026 – Jul 2026</span><span>Python · TradingView</span><span class="award">10,000+ member community</span></div>
-        <h3>VIX Holistic Adaptive Calculator</h3>
-        <p class="role">Market volatility signal analysis tool · published on TradingView as "ES/MES Overnight Stretch + VIX Hybrid"</p>
-        <p class="lede">A tool that turns the VIX (the market's "fear index") into an expected daily range for the S&amp;P 500, then plots how much of that range has been used up as support and resistance levels. I released it to a trading community of more than 10,000 members.</p>
-        <ul class="bul">
-          <li>Built it in Python and TradingView, scaling the VIX into a daily S&amp;P 500 range and plotting percentage-of-range exhaustion levels.</li>
-          <li>Evaluated the VIX-scaled signals against a baseline by P&amp;L over 100+ live trades.</li>
-          <li>Found and diagnosed a failure mode on CPI release days, when the range assumption breaks down.</li>
-        </ul>
-        <ul class="tags"><li>Python</li><li>Pine Script / TradingView</li><li>Volatility modeling</li><li>Backtesting</li></ul>
-      </div>
-      <figure class="media">
-        <div class="shots vix-shots">
-          <button class="shot" type="button" data-cap="Signal at the range floor: a long probe fires at the lowest VIX level and price reverts"><img src="images/vix-range.jpg" alt="S&amp;P 500 futures chart where a Long L0 Probe signal fires at the bottom VIX range level before price bounces" loading="lazy"></button>
-          <button class="shot" type="button" data-cap="Live status panel: VWAP, volume ratio, ATR, position and last signal, shown in market replay"><img src="images/vix-panel.jpg" alt="TradingView chart with the indicator's status table, VIX bands and absorb signals during a market replay" loading="lazy"></button>
-          <button class="shot" type="button" data-cap="Settings: VIX source, Rule of 16 expected move, adaptive NY bands"><img src="images/vix-settings.jpg" alt="Indicator settings showing the CBOE VIX symbol, Rule of 16 expected move and adaptive New York band options" loading="lazy"></button>
-          <button class="shot" type="button" data-cap="Community reaction after the live walkthrough (names blurred)"><img src="images/vix-community.jpg" alt="Discord chat where community members respond to the indicator walkthrough, names blurred" loading="lazy"></button>
-        </div>
-        <div class="fig">
-          <svg viewBox="0 0 460 260" role="img" aria-label="Schematic of a trading day with VIX-based range levels at 25, 50, 75 and 100 percent above and below the open">
-            <g stroke="var(--line)" stroke-width="1">
-              <line x1="60" y1="30" x2="440" y2="30"/><line x1="60" y1="65" x2="440" y2="65"/><line x1="60" y1="100" x2="440" y2="100"/>
-              <line x1="60" y1="170" x2="440" y2="170"/><line x1="60" y1="205" x2="440" y2="205"/><line x1="60" y1="240" x2="440" y2="240"/>
-            </g>
-            <line x1="60" y1="135" x2="440" y2="135" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 4"/>
-            <line x1="60" y1="30" x2="440" y2="30" stroke="var(--pencil)" stroke-width="1.5"/>
-            <line x1="60" y1="240" x2="440" y2="240" stroke="var(--pencil)" stroke-width="1.5"/>
-            <g font-size="11" fill="var(--ink-soft)" text-anchor="end">
-              <text x="52" y="34" fill="var(--pencil)">+100%</text><text x="52" y="69">+75%</text><text x="52" y="104">+50%</text>
-              <text x="52" y="139">open</text>
-              <text x="52" y="174">−50%</text><text x="52" y="209">−75%</text><text x="52" y="244" fill="var(--pencil)">−100%</text>
-            </g>
-            <polyline fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" points="60,135 85,128 105,140 130,118 150,122 175,101 195,96 215,104 238,84 258,70 276,66 292,74 312,92 332,88 352,104 372,99 396,112 418,106 440,110"/>
-            <circle cx="276" cy="66" r="4" fill="var(--pencil)"/>
-            <text x="286" y="56" font-size="11" fill="var(--pencil)">range ~75% used</text>
-          </svg>
-        </div>
-        <figcaption>Screens from my live walkthrough for the community: a signal at the range floor, the status panel, the settings, and the chat afterward. Fig. 3. Schematic, not real data: the day's expected range from the VIX, split into exhaustion levels that act as support and resistance.</figcaption>
-      </figure>
-    </article>
-
-    <!-- SYNCRATE -->
-    <article class="project flip">
-      <div>
-        <div class="p-label"><span>Feb 2025 – May 2025</span><span>React Native · Supabase</span><span>UC Berkeley Open Project</span></div>
-        <h3>Syncrate</h3>
-        <p class="role">Full-Stack Mobile Developer</p>
-        <p class="lede">A dual-system warehouse platform that combines real-time inventory operations with ML-driven analytics and optimization. Every inventory change (a scan, a quantity update, a sold-out timestamp) is logged in a real-time Supabase backend shared by two user roles. That log feeds dashboards and models for inventory forecasting and route optimization around the warehouse.</p>
-        <ul class="bul">
-          <li>Built the app in React Native (Expo) and TypeScript on a Supabase backend.</li>
-          <li>Prototyped the interfaces for both user roles in Figma.</li>
-          <li>Designed a PostgreSQL schema that logs real-time transactions (scans, quantities, timestamps, prices) for analytics.</li>
-        </ul>
-        <ul class="tags"><li>React Native</li><li>Expo</li><li>TypeScript</li><li>Supabase</li><li>PostgreSQL</li><li>Figma</li></ul>
-      </div>
-      <figure class="media">
-        <img src="images/syncrate-logo.jpg" alt="Syncrate logo: the word Syncrate next to a cube drawn with circuit lines" style="display:block;width:100%;height:auto;border:1px solid var(--line)" loading="lazy">
-        <div class="shots sync-shots">
-          <button class="shot" type="button" data-cap="Sign up as a warehouse owner or a merchant seller"><img src="images/syncrate-create-account.jpg" alt="Syncrate sign-up screen with Warehouse Owner and Merchant Seller options" loading="lazy"></button>
-          <button class="shot" type="button" data-cap="Workspace: scan items, upload a CSV, set prices"><img src="images/syncrate-workspace-detail.jpg" alt="Syncrate workspace screen with Start Scanning, Upload CSV and Set Prices buttons above an SKU table" loading="lazy"></button>
-          <button class="shot" type="button" data-cap="Create a workspace with organizing and storage prices"><img src="images/syncrate-create-workspace.jpg" alt="Syncrate create workspace form" loading="lazy"></button>
-          <button class="shot" type="button" data-cap="Match warehouse positions to SKUs"><img src="images/syncrate-matched-positions.jpg" alt="Syncrate table matching warehouse positions to SKUs" loading="lazy"></button>
-        </div>
-        <figcaption>Fig. 4. Sign-up, workspace, create-workspace and position-matching screens.</figcaption>
-        <div class="fig">
-          <svg viewBox="0 0 460 230" role="img" aria-label="Simplified schema: an items table and a users table both linking to a transactions table that records scans, quantities, timestamps and prices">
-            <g fill="var(--card)" stroke="var(--ink)" stroke-width="1.5">
-              <rect x="10" y="20" width="140" height="96"/><rect x="10" y="140" width="140" height="70"/>
-              <rect x="280" y="40" width="170" height="150"/>
-            </g>
-            <g fill="var(--chip)"><rect x="11" y="21" width="138" height="24"/><rect x="11" y="141" width="138" height="24"/><rect x="281" y="41" width="168" height="24"/></g>
-            <g font-size="12.5" fill="var(--ink)">
-              <text x="20" y="38" font-weight="500">items</text>
-              <text x="20" y="64" font-size="11.5" fill="var(--ink-soft)">id</text><text x="20" y="82" font-size="11.5" fill="var(--ink-soft)">name, sku</text><text x="20" y="100" font-size="11.5" fill="var(--ink-soft)">unit_price</text>
-              <text x="20" y="158" font-weight="500">users</text>
-              <text x="20" y="184" font-size="11.5" fill="var(--ink-soft)">id, role</text>
-              <text x="290" y="58" font-weight="500">transactions</text>
-              <text x="290" y="86" font-size="11.5" fill="var(--ink-soft)">item_id → items</text>
-              <text x="290" y="106" font-size="11.5" fill="var(--ink-soft)">user_id → users</text>
-              <text x="290" y="126" font-size="11.5" fill="var(--ink-soft)">type (scan in / out)</text>
-              <text x="290" y="146" font-size="11.5" fill="var(--ink-soft)">quantity, price</text>
-              <text x="290" y="166" font-size="11.5" fill="var(--ink-soft)">created_at</text>
-            </g>
-            <g stroke="var(--ink-soft)" stroke-width="1.5" fill="none"><path d="M150 68 H215 V82 H280"/><path d="M150 176 H215 V102 H280"/></g>
-            <text x="215" y="210" font-size="11" fill="var(--pencil)" text-anchor="middle">every scan = one row</text>
-          </svg>
-        </div>
-        <figcaption>Fig. 5. Simplified view of the transaction log behind the analytics dashboards.</figcaption>
-      </figure>
-    </article>
-  </section>
-
-  <!-- ============ EXPERIENCE ============ -->
-  <section id="experience">
-    <div class="sec-head"><span class="num">§2</span><h2>Experience</h2></div>
-    <div class="xp">
-      <div class="xp-row">
-        <div class="xp-when">Sep 2025 – Present</div>
-        <div>
-          <h3>CITRIS and the Banatao Institute <span>· App Developer</span></h3>
-          <p class="where">UC Berkeley · Berkeley, CA</p>
-          <ul>
-            <li>Co-developed and launched CITRIS Quest across 4 UC campuses with a 5-person team under Director Alexandre Bayen (see §1).</li>
-            <li>Built the Supabase backend and PL/pgSQL purchase logic for the rewards store, and shipped the web store with GitHub Actions CI/CD.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="xp-row">
-        <div class="xp-when">Sep 2025 – Dec 2025</div>
-        <div>
-          <h3>Pioneers in Engineering (PiE) <span>· Business Operations Analyst</span></h3>
-          <p class="where">UC Berkeley · Berkeley, CA</p>
-          <ul>
-            <li>Built Python (pandas) pipelines to clean, transform and analyze club operations data.</li>
-            <li>Built Tableau dashboards of membership, financial and engagement metrics to support sponsor and grant fundraising.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="xp-row">
-        <div class="xp-when">Aug 2024 – Aug 2025</div>
-        <div>
-          <h3>Farmers Insurance <span>· Assistant</span></h3>
-          <p class="where">Rosemead, CA</p>
-          <ul>
-            <li>Analyzed California housing data in Excel (PivotTables, VLOOKUP, statistical functions) to tailor coverage recommendations for 150+ clients.</li>
-            <li>Maintained and audited Salesforce CRM records for 200+ clients for reporting, renewals and policy updates.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="xp-row">
-        <div class="xp-when">Jun 2023 – Feb 2025</div>
-        <div>
-          <h3>Kumon North America <span>· Head Assistant / Instructor</span></h3>
-          <p class="where">Monterey Park, CA</p>
-          <ul>
-            <li>Trained and led a team of 10+ instructors and assistants.</li>
-            <li>Tracked performance data for 100+ K-12 students to find learning gaps.</li>
-          </ul>
-        </div>
-      </div>
     </div>
-  </section>
-
-  <!-- ============ SKILLS ============ -->
-  <section id="skills">
-    <div class="sec-head"><span class="num">§3</span><h2>Skills</h2></div>
-    <dl class="skills">
-      <div><dt>Languages</dt><dd>Python, Java, Dart, Swift, SQL, TypeScript, JavaScript; familiar with C/C++</dd></div>
-      <div><dt>Frameworks</dt><dd>Flutter, React Native, Expo, React, SwiftUI</dd></div>
-      <div><dt>Data &amp; ML</dt><dd>pandas, NumPy, scikit-learn, matplotlib, Jupyter, Tableau, Excel (PivotTables, VLOOKUP)</dd></div>
-      <div><dt>AI</dt><dd>Claude API, Gemini, pgvector embeddings and semantic search, Claude Code</dd></div>
-      <div><dt>Databases &amp; tools</dt><dd>PostgreSQL, Supabase, PL/pgSQL, Git, GitHub Actions, Figma, Salesforce CRM</dd></div>
-      <div><dt>Concepts</dt><dd>Data structures &amp; algorithms, object-oriented programming, Clean Architecture, database design, HTTP/REST, webhooks, CI/CD</dd></div>
-      <div><dt>Spoken</dt><dd>English (fluent), Cantonese (fluent), Mandarin (conversational)</dd></div>
-    </dl>
-  </section>
+  </div>
 
   <!-- ============ COURSEWORK ============ -->
   <section id="coursework">
-    <div class="sec-head"><span class="num">§4</span><h2>Education &amp; Coursework</h2></div>
+    <div class="sec-head"><span class="num">§1</span><h2>Education &amp; Coursework</h2></div>
     <div class="edu">
       <div class="school">
         <h3>University of California, Berkeley</h3>
@@ -586,19 +327,293 @@ dialog#lb .row { display: flex; justify-content: space-between; align-items: cen
     </div>
   </section>
 
+  <!-- ============ PROJECTS ============ -->
+  <section id="projects">
+    <div class="sec-head"><span class="num">§2</span><h2>Projects</h2><span class="note">tap a screenshot to enlarge</span></div>
+
+    <!-- CITRIS QUEST -->
+    <article class="project">
+      <div>
+        <div class="p-label"><span>Sep 2025 – Present</span><span>Flutter · Supabase</span><span class="award">Launched at 4 UC campuses</span></div>
+        <h3><img src="images/citris-icon.png" alt="">CITRIS Quest</h3>
+        <p class="role">App Developer, CITRIS and the Banatao Institute</p>
+        <p class="lede">A cross-platform mobile game inspired by <em>Space Invaders</em> that was created to celebrate CITRIS' 25th anniversary. Players walk around campus and scan pixel-art artworks with their phone camera to earn XP and coins. I built it with a five-person team under CITRIS Director Alexandre Bayen and launched it across four UC campuses: UC Berkeley, UC Davis, UC Santa Cruz, UC Merced.</p>
+        <ul class="bul">
+          <li>Built the camera scanning flow: real-time preview, capture, offline mode and runtime permissions.</li>
+          <li>Built game systems including achievements, a global leaderboard and profile activity timelines.</li>
+          <li>Implemented the Supabase (PostgreSQL) backend for a Printify rewards store, with row-level security and transactional PL/pgSQL functions for purchases (atomic coin deductions, optimistic locking, rollback).</li>
+          <li>Designed the retro arcade UI in Figma and built it in Flutter with CustomPainter pixel-art icons and 3D flip animations.</li>
+          <li>Tested computer-vision recognition of 10+ artworks under different lighting and angles on iOS and Android before launch.</li>
+          <li>Deployed the Flutter web store and landing page to GitHub Pages with GitHub Actions CI/CD.</li>
+        </ul>
+        <ul class="tags"><li>Flutter</li><li>Dart</li><li>Supabase</li><li>PostgreSQL</li><li>PL/pgSQL</li><li>Figma</li><li>GitHub Actions</li><li>Clean Architecture</li></ul>
+      </div>
+      <figure class="media">
+        <!-- To swap in new images: replace the files in images/ or change the src values below. -->
+        <div class="shots">
+          <button class="shot" type="button" data-cap="Scan: point the camera at a campus artwork"><img src="images/citris-scan.jpg" alt="CITRIS Quest scan screen showing a pixel-art artwork in the camera view" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Map: find artworks near you"><img src="images/citris-map.jpg" alt="CITRIS Quest campus map screen" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Leaderboard: rankings across players"><img src="images/citris-leaderboard.jpg" alt="CITRIS Quest leaderboard screen" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Achievements: progress and rewards"><img src="images/citris-achievement.jpg" alt="CITRIS Quest achievements screen" loading="lazy"></button>
+        </div>
+        <figcaption>Fig. 1. Scan, map, leaderboard and achievements screens.</figcaption>
+        <div class="sprites"><img src="images/sprite-1.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-4.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-5.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-6.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-7.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-8.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-9.jpg" alt="Pixel-art alien artwork" loading="lazy"><img src="images/sprite-10.jpg" alt="Pixel-art alien artwork" loading="lazy"></div>
+        <figcaption>Fig. 1b. Pixel-art artworks in the style of <em>Space Invaders</em>, placed around campus for players to scan.</figcaption>
+        <div class="web">
+          <div>
+            <button class="shot" type="button" data-cap="Landing page: Celebrating 25 Years of CITRIS Innovation"><img src="images/citris-landing.jpg" alt="CITRIS Quest landing page with a pixel-art alien and a Download on TestFlight button" loading="lazy"></button>
+            <a href="https://dylancc5.github.io/citris-quest-landing/" target="_blank" rel="noopener">Landing page ↗</a>
+          </div>
+          <div>
+            <button class="shot" type="button" data-cap="Merch store: redeem in-game coins for merch"><img src="images/citris-redemption.jpg" alt="CITRIS Quest merch shop where players redeem in-game coins" loading="lazy"></button>
+            <a href="https://dylancc5.github.io/citris-quest-redemption/" target="_blank" rel="noopener">Merch store ↗</a>
+          </div>
+        </div>
+        <figcaption>Fig. 1c. The landing page and the rewards store where players spend the coins they earn.</figcaption>
+      </figure>
+    </article>
+
+    <!-- PING -->
+    <article class="project">
+      <div>
+        <div class="p-label"><span>Apr 2026 – Present</span><span>iOS · LLM</span><span class="award">1st place · Anthropic × UC Berkeley Haas School of Business Hackathon</span></div>
+        <h3><img src="images/ping-icon.png" alt="">Ping</h3>
+        <p class="role">iOS app, team of 4</p>
+        <p class="lede">A relationship memory for students and early-career professionals. You log someone you just met by voice in under 30 seconds, and Ping reminds you when to reach out and drafts a message you edit and send yourself. Our team won first place in the Economics &amp; Education Track at the Anthropic × UC Berkeley Haas School of Business Hackathon, out of 200+ participants.</p>
+        <ul class="bul">
+          <li>Designed the Supabase (PostgreSQL) data model for users' professional contacts, with pgvector embeddings for semantic search.</li>
+          <li>Built the voice capture and recommendation pipeline, pairing pgvector retrieval with Gemini and the Claude API.</li>
+          <li>Built the app natively in Swift and SwiftUI.</li>
+        </ul>
+        <ul class="tags"><li>Swift</li><li>SwiftUI</li><li>Supabase</li><li>pgvector</li><li>Claude API</li><li>Gemini</li></ul>
+        <div class="extra">
+        <figure>
+        <div class="fig">
+          <svg viewBox="0 0 500 250" role="img" aria-label="Diagram of Ping's pipeline: voice note, contact extraction, Supabase with pgvector, then a Claude-drafted message the user edits and sends">
+            <defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--ink-soft)"/></marker></defs>
+            <g fill="var(--card)" stroke="var(--ink)" stroke-width="1.5">
+              <rect x="10" y="20" width="144" height="56"/>
+              <rect x="178" y="20" width="144" height="56"/>
+              <rect x="346" y="20" width="144" height="56"/>
+              <rect x="178" y="160" width="144" height="56"/>
+              <rect x="346" y="160" width="144" height="56"/>
+            </g>
+            <g fill="var(--ink)" font-size="13" text-anchor="middle">
+              <text x="82" y="44">Voice note</text><text x="82" y="62" font-size="11" fill="var(--ink-soft)">hold to speak</text>
+              <text x="250" y="44">Extract contact</text><text x="250" y="62" font-size="11" fill="var(--ink-soft)">name, company, notes</text>
+              <text x="418" y="44">Supabase</text><text x="418" y="62" font-size="11" fill="var(--ink-soft)">Postgres + pgvector</text>
+              <text x="250" y="184">Nudge + draft</text><text x="250" y="202" font-size="11" fill="var(--ink-soft)">Claude API</text>
+              <text x="418" y="184">You edit, send</text><text x="418" y="202" font-size="11" fill="var(--ink-soft)">always manual</text>
+            </g>
+            <g stroke="var(--ink-soft)" stroke-width="1.5" fill="none" marker-end="url(#ar)">
+              <path d="M154 48 H174"/><path d="M322 48 H342"/>
+              <path d="M418 76 V118 H250 V156"/>
+              <path d="M322 188 H342"/>
+            </g>
+            <text x="334" y="112" font-size="11" fill="var(--pencil)" text-anchor="middle">semantic search</text>
+          </svg>
+        </div>
+        <figcaption>Fig. 2. How a contact moves through Ping, from voice note to a message you send.</figcaption>
+        </figure>
+        </div>
+      </div>
+      <div class="media">
+        <a class="post-card" id="ping-post" href="https://lnkd.in/p/e4BjUU4t" target="_blank" rel="noopener">
+          <span><span class="pc-k">LinkedIn post</span><span class="pc-t">1st place, Anthropic × UC Berkeley Haas School of Business Hackathon</span></span>
+          <span class="pc-go" aria-hidden="true">↗</span>
+        </a>
+        <!-- Team photo: save it as images/ping-team.jpg. This block hides itself until the file exists. -->
+        <figure class="team">
+          <img src="images/ping-team.jpg" alt="The Ping team after winning first place at the Anthropic × UC Berkeley Haas School of Business Hackathon" onerror="this.closest('.team').hidden=true">
+          <figcaption>Our team after taking 1st place in the Economics &amp; Education Track.</figcaption>
+        </figure>
+        <figure>
+          <div class="shots">
+            <button class="shot" type="button" data-cap="Voice capture: log someone by talking"><img src="images/ping-voice.jpg" alt="Ping Log a Contact screen recording a voice note" loading="lazy"></button>
+            <button class="shot" type="button" data-cap="Tone setup: Ping learns how you write so drafts sound like you"><img src="images/ping-tone.jpg" alt="Ping Write like yourself screen with a recruiter reply scenario" loading="lazy"></button>
+            <button class="shot" type="button" data-cap="After saving: reminders, drafts in your voice, goal matching"><img src="images/ping-saved.jpg" alt="Ping contact saved screen explaining reminders, drafted messages and goals" loading="lazy"></button>
+            <button class="shot" type="button" data-cap="Goal matching: every contact scored against your goal"><img src="images/ping-goals.jpg" alt="Ping goal saved screen explaining how contacts are scored against a goal" loading="lazy"></button>
+          </div>
+          <figcaption>Fig. 2b. Voice capture, tone setup, what happens after you save a contact, and goal matching. Sample contact shown.</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <!-- VIX TOOL -->
+    <article class="project">
+      <div>
+        <div class="p-label"><span>Jun 2026 – Jul 2026</span><span>Python · TradingView</span><span class="award">10,000+ member community</span></div>
+        <h3>VIX Holistic Adaptive Calculator</h3>
+        <p class="role">Market volatility signal analysis tool · published on TradingView as "ES/MES Overnight Stretch + VIX Hybrid"</p>
+        <p class="lede">A tool that turns the VIX (the market's "fear index") into an expected daily range for the S&amp;P 500, then plots how much of that range has been used up as support and resistance levels. My group and I released it to a trading community of more than 10,000 members.</p>
+        <ul class="bul">
+          <li>Built it in Python and TradingView, scaling the VIX into a daily S&amp;P 500 range and plotting percentage-of-range exhaustion levels.</li>
+          <li>Evaluated the VIX-scaled signals against a baseline by P&amp;L over 100+ live paper-trades.</li>
+          <li>Found and diagnosed a failure mode on CPI release days, when the range assumption breaks down.</li>
+        </ul>
+        <ul class="tags"><li>Python</li><li>Pine Script / TradingView</li><li>Volatility modeling</li><li>Backtesting</li></ul>
+      </div>
+      <figure class="media">
+        <div class="shots vix-shots">
+          <button class="shot" type="button" data-cap="Signal at the range floor: a long probe fires at the lowest VIX level and price reverts"><img src="images/vix-range.jpg" alt="S&amp;P 500 futures chart where a Long L0 Probe signal fires at the bottom VIX range level before price bounces" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Live status panel: VWAP, volume ratio, ATR, position and last signal, shown in market replay"><img src="images/vix-panel.jpg" alt="TradingView chart with the indicator's status table, VIX bands and absorb signals during a market replay" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Settings: VIX source, Rule of 16 expected move, adaptive NY bands"><img src="images/vix-settings.jpg" alt="Indicator settings showing the CBOE VIX symbol, Rule of 16 expected move and adaptive New York band options" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Community reaction after the live walkthrough (names blurred)"><img src="images/vix-community.jpg" alt="Discord chat where community members respond to the indicator walkthrough, names blurred" loading="lazy"></button>
+        </div>
+        <figcaption>Fig. 3. Screens from my live walkthrough for the community: a signal at the range floor, the status panel, the settings, and the chat afterward.</figcaption>
+        <div class="fig">
+          <svg viewBox="0 0 460 260" role="img" aria-label="Schematic of a trading day with VIX-based range levels at 25, 50, 75 and 100 percent above and below the open">
+            <g stroke="var(--line)" stroke-width="1">
+              <line x1="60" y1="30" x2="440" y2="30"/><line x1="60" y1="65" x2="440" y2="65"/><line x1="60" y1="100" x2="440" y2="100"/>
+              <line x1="60" y1="170" x2="440" y2="170"/><line x1="60" y1="205" x2="440" y2="205"/><line x1="60" y1="240" x2="440" y2="240"/>
+            </g>
+            <line x1="60" y1="135" x2="440" y2="135" stroke="var(--ink-soft)" stroke-width="1" stroke-dasharray="4 4"/>
+            <line x1="60" y1="30" x2="440" y2="30" stroke="var(--pencil)" stroke-width="1.5"/>
+            <line x1="60" y1="240" x2="440" y2="240" stroke="var(--pencil)" stroke-width="1.5"/>
+            <g font-size="11" fill="var(--ink-soft)" text-anchor="end">
+              <text x="52" y="34" fill="var(--pencil)">+100%</text><text x="52" y="69">+75%</text><text x="52" y="104">+50%</text>
+              <text x="52" y="139">open</text>
+              <text x="52" y="174">−50%</text><text x="52" y="209">−75%</text><text x="52" y="244" fill="var(--pencil)">−100%</text>
+            </g>
+            <polyline fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" points="60,135 85,128 105,140 130,118 150,122 175,101 195,96 215,104 238,84 258,70 276,66 292,74 312,92 332,88 352,104 372,99 396,112 418,106 440,110"/>
+            <circle cx="276" cy="66" r="4" fill="var(--pencil)"/>
+            <text x="286" y="56" font-size="11" fill="var(--pencil)">range ~75% used</text>
+          </svg>
+        </div>
+        <figcaption>Fig. 3b. Schematic, not real data: the day's expected range from the VIX, split into exhaustion levels that act as support and resistance.</figcaption>
+      </figure>
+    </article>
+
+    <!-- SYNCRATE -->
+    <article class="project">
+      <div>
+        <div class="p-label"><span>Feb 2025 – May 2025</span><span>React Native · Supabase</span><span>UC Berkeley Open Project</span></div>
+        <h3>Syncrate</h3>
+        <p class="role">Full-Stack Mobile Developer</p>
+        <p class="lede">A dual-system warehouse platform that combines real-time inventory operations with ML-driven analytics and optimization. Every inventory change (a scan, a quantity update, a sold-out timestamp) is logged in a real-time Supabase backend shared by two user roles. That log feeds dashboards and models for inventory forecasting and route optimization around the warehouse.</p>
+        <ul class="bul">
+          <li>Built the app in React Native (Expo) and TypeScript on a Supabase backend.</li>
+          <li>Prototyped the interfaces for both user roles in Figma.</li>
+          <li>Designed a PostgreSQL schema that logs real-time transactions (scans, quantities, timestamps, prices) for analytics.</li>
+        </ul>
+        <ul class="tags"><li>React Native</li><li>Expo</li><li>TypeScript</li><li>Supabase</li><li>PostgreSQL</li><li>Figma</li></ul>
+      </div>
+      <figure class="media">
+        <img src="images/syncrate-logo.jpg" alt="Syncrate logo: the word Syncrate next to a cube drawn with circuit lines" style="display:block;width:100%;height:auto;border:1px solid var(--line)" loading="lazy">
+        <div class="shots sync-shots">
+          <button class="shot" type="button" data-cap="Sign up as a warehouse owner or a merchant seller"><img src="images/syncrate-create-account.jpg" alt="Syncrate sign-up screen with Warehouse Owner and Merchant Seller options" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Workspace: scan items, upload a CSV, set prices"><img src="images/syncrate-workspace-detail.jpg" alt="Syncrate workspace screen with Start Scanning, Upload CSV and Set Prices buttons above an SKU table" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Create a workspace with organizing and storage prices"><img src="images/syncrate-create-workspace.jpg" alt="Syncrate create workspace form" loading="lazy"></button>
+          <button class="shot" type="button" data-cap="Match warehouse positions to SKUs"><img src="images/syncrate-matched-positions.jpg" alt="Syncrate table matching warehouse positions to SKUs" loading="lazy"></button>
+        </div>
+        <figcaption>Fig. 4. Sign-up, workspace, create-workspace and position-matching screens.</figcaption>
+        <div class="fig">
+          <svg viewBox="0 0 460 236" role="img" aria-label="Simplified schema: an items table and a users table both linking to a transactions table that records scans, quantities, timestamps and prices">
+            <g fill="var(--card)" stroke="var(--ink)" stroke-width="1.5">
+              <rect x="10" y="20" width="140" height="96"/><rect x="10" y="140" width="140" height="70"/>
+              <rect x="280" y="40" width="170" height="150"/>
+            </g>
+            <g fill="var(--chip)"><rect x="11" y="21" width="138" height="24"/><rect x="11" y="141" width="138" height="24"/><rect x="281" y="41" width="168" height="24"/></g>
+            <g font-size="12.5" fill="var(--ink)">
+              <text x="20" y="38" font-weight="500">items</text>
+              <text x="20" y="64" font-size="11.5" fill="var(--ink-soft)">id</text><text x="20" y="82" font-size="11.5" fill="var(--ink-soft)">name, sku</text><text x="20" y="100" font-size="11.5" fill="var(--ink-soft)">unit_price</text>
+              <text x="20" y="158" font-weight="500">users</text>
+              <text x="20" y="184" font-size="11.5" fill="var(--ink-soft)">id, role</text>
+              <text x="290" y="58" font-weight="500">transactions</text>
+              <text x="290" y="86" font-size="11.5" fill="var(--ink-soft)">item_id → items</text>
+              <text x="290" y="106" font-size="11.5" fill="var(--ink-soft)">user_id → users</text>
+              <text x="290" y="126" font-size="11.5" fill="var(--ink-soft)">type (scan in / out)</text>
+              <text x="290" y="146" font-size="11.5" fill="var(--ink-soft)">quantity, price</text>
+              <text x="290" y="166" font-size="11.5" fill="var(--ink-soft)">created_at</text>
+            </g>
+            <g stroke="var(--ink-soft)" stroke-width="1.5" fill="none"><path d="M150 68 H215 V82 H280"/><path d="M150 176 H215 V102 H280"/></g>
+            <text x="215" y="225" font-size="11" fill="var(--pencil)" text-anchor="middle">every scan = one row</text>
+          </svg>
+        </div>
+        <figcaption>Fig. 5. Simplified view of the transaction log behind the analytics dashboards.</figcaption>
+      </figure>
+    </article>
+  </section>
+
+  <!-- ============ EXPERIENCE ============ -->
+  <section id="experience">
+    <div class="sec-head"><span class="num">§3</span><h2>Experience</h2></div>
+    <div class="xp">
+      <div class="xp-row">
+        <div class="xp-when">Sep 2025 – Present</div>
+        <div>
+          <h3>CITRIS and the Banatao Institute <span>· App Developer</span></h3>
+          <p class="where">UC Berkeley · Berkeley, CA</p>
+          <ul>
+            <li>Co-developed and launched CITRIS Quest across 4 UC campuses with a 5-person team under Director Alexandre Bayen (see §2).</li>
+            <li>Built the Supabase backend and PL/pgSQL purchase logic for the rewards store, and shipped the web store with GitHub Actions CI/CD.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-when">Sep 2025 – Dec 2025</div>
+        <div>
+          <h3>Pioneers in Engineering (PiE) <span>· Business Operations Analyst</span></h3>
+          <p class="where">UC Berkeley · Berkeley, CA</p>
+          <ul>
+            <li>Built Python (pandas) pipelines to clean, transform and analyze club operations data.</li>
+            <li>Built Tableau dashboards of membership, financial and engagement metrics to support sponsor and grant fundraising.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-when">Aug 2024 – Aug 2025</div>
+        <div>
+          <h3>Farmers Insurance <span>· Assistant</span></h3>
+          <p class="where">Rosemead, CA</p>
+          <ul>
+            <li>Analyzed California housing data in Excel (PivotTables, VLOOKUP, statistical functions) to tailor coverage recommendations for 150+ clients.</li>
+            <li>Maintained and audited Salesforce CRM records for 200+ clients for reporting, renewals and policy updates.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="xp-row">
+        <div class="xp-when">Jun 2023 – Feb 2025</div>
+        <div>
+          <h3>Kumon North America <span>· Head Assistant / Instructor</span></h3>
+          <p class="where">Monterey Park, CA</p>
+          <ul>
+            <li>Trained and led a team of 10+ instructors and assistants.</li>
+            <li>Tracked performance data for 100+ K-12 students to find learning gaps.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SKILLS ============ -->
+  <section id="skills">
+    <div class="sec-head"><span class="num">§4</span><h2>Skills</h2></div>
+    <dl class="skills">
+      <div><dt>Languages</dt><dd>Python, Java, Dart, Swift, SQL, TypeScript, JavaScript; familiar with C/C++</dd></div>
+      <div><dt>Frameworks</dt><dd>Flutter, React Native, Expo, React, SwiftUI</dd></div>
+      <div><dt>Data &amp; ML</dt><dd>pandas, NumPy, scikit-learn, matplotlib, Jupyter, Tableau, Excel (PivotTables, VLOOKUP)</dd></div>
+      <div><dt>AI</dt><dd>Claude API, Gemini, pgvector embeddings and semantic search, Claude Code</dd></div>
+      <div><dt>Databases &amp; tools</dt><dd>PostgreSQL, Supabase, PL/pgSQL, Git, GitHub Actions, Figma, Salesforce CRM</dd></div>
+      <div><dt>Concepts</dt><dd>Data structures &amp; algorithms, object-oriented programming, Clean Architecture, database design, HTTP/REST, webhooks, CI/CD</dd></div>
+      <div><dt>Spoken</dt><dd>English (fluent), Cantonese (fluent), Mandarin (conversational)</dd></div>
+    </dl>
+  </section>
+
   <!-- ============ CONTACT ============ -->
   <section id="contact">
     <div class="sec-head"><span class="num">§5</span><h2>Contact</h2></div>
     <div class="contact">
-      <div>
-        <p>I'm looking for software engineering, data science and data analyst internships. If you're hiring, or just want to talk about a project, email me and I'll get back to you quickly.</p>
-        <p class="hand">Thanks for reading! ∎</p>
-      </div>
       <ul class="c-list">
         <li><span class="k">Email</span><span class="v" id="email">sfong778@gmail.com</span><button class="copy" type="button" data-copy="email">Copy</button></li>
+        <!-- LinkedIn: paste your profile URL into href (and the link text). This row hides itself while href is empty. -->
+        <li id="linkedin-row"><span class="k">LinkedIn</span><a class="v" id="linkedin" href="" target="_blank" rel="noopener">linkedin.com/in/</a></li>
         <li><span class="k">GitHub</span><a class="v" href="https://github.com/stanleyfong" target="_blank" rel="noopener">github.com/stanleyfong</a></li>
         <li><span class="k">Based in</span><span class="v">Berkeley, CA</span></li>
       </ul>
+      <div class="thanks">
+        <p class="hand">Thanks for reading! ∎</p>
+      </div>
     </div>
   </section>
 
@@ -612,7 +627,9 @@ dialog#lb .row { display: flex; justify-content: space-between; align-items: cen
 
 <script>
 (function () {
-  // Hide the LinkedIn button until a URL is pasted into its href.
+  // Hide the LinkedIn row until a URL is pasted into its href.
+  var li = document.getElementById('linkedin');
+  if (!li.getAttribute('href')) document.getElementById('linkedin-row').hidden = true;
 
   // Screenshot lightbox
   var lb = document.getElementById('lb'), img = document.getElementById('lb-img'), cap = document.getElementById('lb-cap');
